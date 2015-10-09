@@ -5,7 +5,7 @@
 
 #pragma reqlib zm_team_mngr
 
-#include "include\\zm\\zm_team_mngr_const.inc"
+#include "include\\zombiemod-inc\\zm_team_mngr_const.inc"
 
 /*******************************************************************************
  * FORWARDS
