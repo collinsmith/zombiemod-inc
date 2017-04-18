@@ -67,6 +67,12 @@ stock zm_getLatestVersion(version[] = "", len = 0, Logger: logger = Invalid_Logg
   socket_recv(socket, data, charsmax(data));
   socket_close(socket);
 
+  // TODO: This could be tested more effectively, as this just text and not a real 404
+  if (equal(data, "404: Not Found")) {
+    ThrowSocketException(logger, "%s - %s", data, ZM_LATEST_VERSION_URL);
+    return ZM_VERSION;
+  }
+
   new tmp[32];
   new offset = copyc(tmp, charsmax(tmp), data, ' ');
   new const versionId = str_to_num(tmp);
