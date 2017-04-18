@@ -3,6 +3,8 @@
 #endif
 #define _zm_version_included
 
+#include <sockets>
+
 #include "include/zm/zm_version_codes.inc"
 #include "include/zm/zm_debug.inc"
 
