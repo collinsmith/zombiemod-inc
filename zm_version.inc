@@ -17,6 +17,7 @@
 
 #define ZM_LATEST_VERSION_URL "https://raw.githubusercontent.com/collinsmith/zombies/master/version"
 #define ZM_LATEST_VERSION_PORT 443
+#define ZM_DOWNLOAD_URL "https://github.com/collinsmith/zombies"
 
 /**
  * Returns the version code of ZM.
@@ -86,4 +87,11 @@ stock zm_getLatestVersion(version[] = "", len = 0, Logger: logger = Invalid_Logg
   }
   
   return versionId;
+}
+
+/**
+ * Returns the download URL for ZM.
+ */
+stock zm_getDownloadUrl(url[], len) {
+  return copy(url, len, ZM_DOWNLOAD_URL);
 }
