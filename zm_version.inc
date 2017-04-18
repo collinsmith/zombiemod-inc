@@ -15,7 +15,7 @@
 /** The string representation for this version of ZM. */
 #define ZM_VERSION_STRING "1.0.0"
 
-#define ZM_LATEST_VERSION_URL "https://raw.githubusercontent.com/collinsmith/zombies-inc/master/version"
+#define ZM_LATEST_VERSION_URL "https://raw.githubusercontent.com/collinsmith/zombies/master/version"
 #define ZM_LATEST_VERSION_PORT 443
 
 /**
