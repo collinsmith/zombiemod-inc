@@ -265,4 +265,4 @@ native zm_loadClass(const path[], const bool: recursive = false);
  * 
  * @param class The handle of the trie repreesnting the class
  */
-native zm_reloadClass(const Trie: class);
+//native zm_reloadClass(const Trie: class);
