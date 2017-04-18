@@ -5,6 +5,8 @@
 
 #include <sockets>
 
+#include "include/stocks/exception_stocks.inc"
+
 #include "include/zm/zm_version_codes.inc"
 #include "include/zm/zm_debug.inc"
 
@@ -53,9 +55,9 @@ stock zm_getLatestVersion(version[] = "", len = 0, Logger: logger = Invalid_Logg
   new error, socket = socket_open(ZM_LATEST_VERSION_URL, ZM_LATEST_VERSION_PORT, ._error = error);
   if (error) {
     switch (error) {
-      case 1: LoggerLogWarning(logger, "Socket could not be created due to an unspecified error");
-      case 2: LoggerLogWarning(logger, "Failed to resolve remote hostname: %s", ZM_LATEST_VERSION_URL);
-      case 3: LoggerLogWarning(logger, "Failed to connect to %s on port %d", ZM_LATEST_VERSION_URL, ZM_LATEST_VERSION_PORT);
+      case 1: ThrowSocketException(logger, "Socket could not be created due to an unspecified error");
+      case 2: ThrowSocketException(logger, "Failed to resolve remote hostname: %s", ZM_LATEST_VERSION_URL);
+      case 3: ThrowSocketException(logger, "Failed to connect to %s on port %d", ZM_LATEST_VERSION_URL, ZM_LATEST_VERSION_PORT);
     }
 
     return ZM_VERSION;
