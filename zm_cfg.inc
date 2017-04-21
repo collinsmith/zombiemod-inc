@@ -21,14 +21,16 @@
  * Returns the path to the ZM configs directory.
  */
 stock zm_getConfigsDir(dst[], len) {
-  get_localinfo("amxx_configsdir", dst, len);
-  return BuildPath(dst, len, dst, ZM_CONFIGS_DIR);
+  new const maxLen = len;
+  len = get_localinfo("amxx_configsdir", dst, maxLen);
+  return resolvePath(dst, maxLen, len, ZM_CONFIGS_DIR);
 }
 
 /**
  * Returns the path to the ZM config file.
  */
 stock zm_getConfigsFile(dst[], len) {
-  zm_getConfigsDir(dst, len);
-  return BuildPath(dst, len, dst, ZM_CFG_FILE);
+  new const maxLen = len;
+  len = zm_getConfigsDir(dst, maxLen);
+  return resolvePath(dst, maxLen, len, ZM_CFG_FILE);
 }
