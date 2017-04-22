@@ -33,7 +33,7 @@
  *         empty.
  */
 stock zm_registerConCmd(const command[], const callback[], const desc[],
-                        access = ADMIN_CFG, Logger: logger = Invalid_Logger) {
+                        access = ADMIN_CFG, Logger: logger = This_Logger) {
   new zm[8];
   formatex(zm, charsmax(zm), "%L", LANG_SERVER, ZM_NAME_SHORT);
   strtolower(zm);

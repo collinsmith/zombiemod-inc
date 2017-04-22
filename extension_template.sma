@@ -11,12 +11,9 @@
 #define EXTENSION_NAME "${name}"
 #define VERSION_STRING "1.0.0"
 
-static Logger: logger = Invalid_Logger;
-
 public zm_onInit() {
-  logger = LoggerCreate();
 #if defined ZM_COMPILE_FOR_DEBUG
-  LoggerSetVerbosity(logger, Severity_Lowest);
+  LoggerSetVerbosity(This_Logger, Severity_Lowest);
 #endif
 }
 
