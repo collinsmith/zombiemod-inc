@@ -9,7 +9,7 @@
  * release use. Enabling this option will also add a ton of additional logging
  * which is intended for development purposes.
  */
-//#define ZM_COMPILE_FOR_DEBUG
+#define ZM_COMPILE_FOR_DEBUG
 
 #if defined ZM_COMPILE_FOR_DEBUG
   //#define DEBUG_COMMANDS
