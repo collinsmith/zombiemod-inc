@@ -22,7 +22,6 @@
  * @param callback The name of the function to call when the command is executed
  * @param desc     A brief description of the command
  * @param access   The required privileges to execute the command
- * @param logger   The logger which to log the event to
  * 
  * @return The idenfitifier assigned to the command by {@link #register_concmd},
  *         or {@code 0} on failure. If multiple aliases are registered at once,
@@ -33,15 +32,14 @@
  *         empty.
  */
 stock zm_registerConCmd(const command[], const callback[], const desc[],
-                        access = ADMIN_CFG, Logger: logger = This_Logger) {
+                        access = ADMIN_CFG) {
   new zm[8];
   formatex(zm, charsmax(zm), "%L", LANG_SERVER, ZM_NAME_SHORT);
   strtolower(zm);
 #if defined DEBUG_COMMANDS
-  return registerConCmd(zm, command, callback, desc, access, logger);
+  return registerConCmd(zm, command, callback, desc, access, true);
 #else
-  #pragma unused logger
-  return registerConCmd(zm, command, callback, desc, access, Invalid_Logger);
+  return registerConCmd(zm, command, callback, desc, access, false);
 #endif
 }
 
