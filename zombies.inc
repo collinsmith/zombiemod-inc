@@ -101,11 +101,11 @@ native zm_getExtension(const ZM_Extension: extension, data[extension_t]);
 native ZM_Extension: zm_findExtension(const name[]);
 
 /**
- * Returns the logger handle used by ZM, or {@code Invalid_Logger} if an error
- * occurred. This logger is used by all core extensions. Extensions which log
+ * Returns the plugin ID of ZM, or {@code INVALID_PLUGIN_ID} if an error
+ * occurred. This is used by all core extensions. Extensions which log
  * a lot of information should use their own loggers instead.
  * 
- * @throws IllegalStateException if this function is called before the logger
+ * @throws IllegalStateException if this function is called before the plugin
  *         has been initialized.
  */
-native Logger: zm_getLogger();
+native zm_getPluginId();
