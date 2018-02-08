@@ -47,8 +47,7 @@ stock zm_parseResource(const res[], dst[], len, id = LANG_SERVER) {
       // TODO: Not found should display something else than ML trans key
       LookupLangKey(dst, len, res[offset], id);
 #if defined DEBUG_I18N
-      // Cannot use zm_getLogger() here, causes bad things to happen
-      server_print("%s -> \"%s\"", tmp, dst);
+      logd("%s -> \"%s\"", tmp, dst);
 #endif
     } else {
       copy(dst, len, res);
