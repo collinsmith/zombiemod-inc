@@ -9,6 +9,7 @@
 
 #if defined DEBUG_I18N
   #include <logger>
+  #include "include/stocks/simple_logger_stocks.inc"
 #endif
 
 /** The dictionary file of zombies. */
