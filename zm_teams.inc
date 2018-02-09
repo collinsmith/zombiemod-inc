@@ -141,7 +141,7 @@ native ZM_Team: zm_getUserTeam(const id);
  * {@code zm_getUserTeam(id) == ZM_TEAM_ZOMBIE}.
  */
 stock bool: zm_isUserZombie(const id) {
-  zm_getUserTeam(id) == ZM_TEAM_ZOMBIE;
+  return zm_getUserTeam(id) == ZM_TEAM_ZOMBIE;
 }
 
 /**
@@ -149,7 +149,7 @@ stock bool: zm_isUserZombie(const id) {
  * {@code zm_getUserTeam(id) == ZM_TEAM_HUMAN}.
  */
 stock bool: zm_isUserHuman(const id) {
-  zm_getUserTeam(id) == ZM_TEAM_HUMAN;
+  return zm_getUserTeam(id) == ZM_TEAM_HUMAN;
 }
 
 /**
