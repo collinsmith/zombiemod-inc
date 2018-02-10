@@ -117,12 +117,22 @@ forward zm_onAfterCured(const id, const curor);
  * function to do things such as change the player's model, modify their
  * loadout, etc.
  * 
- * @param id       The player triggering the event
- * @param isZombie {@code true} if the player is a zombie, {@code false} otherwise
+ * @param id The player triggering the event
  * 
  * @noreturn
  */
 forward zm_onApply(const id);
+
+/**
+ * Called after refreshing the state of a player. Extensions can override this
+ * function to update their data on player properties changed by
+ * {@code #zm_onApply}.
+ * 
+ * @param id The player triggering the event
+ * 
+ * @noreturn
+ */
+forward zm_onAfterApply(const id);
 
 /*******************************************************************************
  * NATIVES
