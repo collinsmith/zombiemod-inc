@@ -138,7 +138,7 @@ native bool: zm_registerClass(const Trie: class, const bool: replace = false);
  * {@code name} and returns it. If the class cannot be found, then
  * {@code Invalid_Trie} is returned instead.
  */
-native Trie: zm_findClass(const name[]);
+native Class: zm_findClass(const name[]);
 
 /**
  * Changes the specified class property.
@@ -169,7 +169,7 @@ native bool: zm_isClassRegistered(const any: class);
  * Returns the class assigned to the specified player, or {@code Invalid_Trie}
  * if the player has no class assigned to him.
  */
-native Trie: zm_getUserClass(const id);
+native Class: zm_getUserClass(const id);
 
 /**
  * Assigns a class to a player.
@@ -188,7 +188,7 @@ native Trie: zm_getUserClass(const id);
  *         the class they would have changed to if a graceful class change had
  *         occurred).
  */
-native Trie: zm_setUserClass(const id, const Class: class, const bool: immediate = false, const bool: blockable = true);
+native Class: zm_setUserClass(const id, const Class: class, const bool: immediate = false, const bool: blockable = true);
 
 /**
  * Returns the number of classes registered.
@@ -265,4 +265,4 @@ native zm_loadClass(const path[], const bool: recursive = false);
  * 
  * @param class The handle of the trie repreesnting the class
  */
-//native zm_reloadClass(const Trie: class);
+//native zm_reloadClass(const Class: class);
