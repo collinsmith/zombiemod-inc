@@ -25,7 +25,7 @@
  *         {@code true}, then {@code PLUGIN_HANDLED} will prevent the menu from
  *         being displayed.
  */
-forward zm_onBeforeClassesMenuDisplayed(const id, const bool: exitable);
+forward zm_onBeforeClassMenuDisplayed(const id, const bool: exitable);
 
 /**
  * Called when the classes menu is displayed to a user.
@@ -35,7 +35,7 @@ forward zm_onBeforeClassesMenuDisplayed(const id, const bool: exitable);
  * 
  * @noreturn
  */
-forward zm_onClassesMenuDisplayed(const id, const bool: exitable);
+forward zm_onClassMenuDisplayed(const id, const bool: exitable);
 
 /**
  * Called when the class menu is being constructed for a user, enabling or
