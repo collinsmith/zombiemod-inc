@@ -13,7 +13,7 @@
 
 #if defined ZM_COMPILE_FOR_DEBUG
   //#define DEBUG_COMMANDS
-  #define DEBUG_I18N
+  //#define DEBUG_I18N
 #else
   //#define DEBUG_COMMANDS
   //#define DEBUG_I18N
