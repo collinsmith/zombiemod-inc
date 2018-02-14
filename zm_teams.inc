@@ -24,7 +24,7 @@ forward zm_onSpawn(const id);
  * 
  * @noreturn
  */
-forward zm_onKilled(const killer, const victim);
+forward zm_onKilled(const victim, const killer);
 
 /**
  * Called when a player is about to be infected.
