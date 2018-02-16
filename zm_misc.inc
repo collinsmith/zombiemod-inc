@@ -4,7 +4,7 @@
 #define _zm_misc_included
 
 #include "include/stocks/misc_stocks.inc"
-#include "include/stocks/string_stocks.inc"
+#include "include/stocks/string_utils.inc"
 
 #include "include/zm/zm_debug.inc"
 #include "include/zm/zm_i18n.inc"
