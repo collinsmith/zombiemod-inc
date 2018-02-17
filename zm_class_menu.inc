@@ -38,6 +38,18 @@ forward zm_onBeforeClassMenuDisplayed(const id, const bool: exitable);
 forward zm_onClassMenuDisplayed(const id, const bool: exitable);
 
 /**
+ * Called when a user selects a valid class from the menu. It is in this forward
+ * that the class is applied.
+ * 
+ * @param id    The player that selected the class
+ * @param class The selected class
+ * @param name  The name of the class (without i18n)
+ * 
+ * @noreturn
+ */
+forward zm_onClassSelected(const id, const Class: class, const name[]);
+
+/**
  * Called when the class menu is being constructed for a user, enabling or
  * disabling the appropriate classes.
  * 
@@ -62,15 +74,13 @@ forward zm_isClassEnabled(const id, const Class: class, const name[]);
  * 
  * @param id       The player to display the menu for
  * @param exitable {@code true} if the menu is exitable, {@code false} otherwise
- * @param apply    {@code true} to immediately apply the class once selected,
- *                   {@code false} to apply the class the next time they spawn.
  * 
  * @return {@code true} if the menu displayed as a result of this call,
  *         {@code false} otherwise. This function will return {@code false} if
  *         {@code exitable} is {@code true} and another extension blocks the
  *         menu from displaying.
  */
-native bool: zm_showClassMenu(const id, const bool: exitable = true, const bool: apply = true);
+native bool: zm_showClassMenu(const id, const bool: exitable = true);
 
 /**
  * Populates the passed array with handles to the tries representing the classes
