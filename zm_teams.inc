@@ -117,22 +117,26 @@ forward zm_onAfterCured(const id, const curor);
  * function to do things such as change the player's model, modify their
  * loadout, etc.
  * 
- * @param id The player triggering the event
+ * @param id    The player triggering the event
+ * @param first {@code true} if this is the first application after a state
+ *                change, {@code false} otherwise
  * 
  * @noreturn
  */
-forward zm_onApply(const id);
+forward zm_onApply(const id, const bool: first);
 
 /**
  * Called after refreshing the state of a player. Extensions can override this
  * function to update their data on player properties changed by
  * {@code #zm_onApply}.
  * 
- * @param id The player triggering the event
+ * @param id    The player triggering the event
+ * @param first {@code true} if this is the first application after a state
+ *                change, {@code false} otherwise
  * 
  * @noreturn
  */
-forward zm_onAfterApply(const id);
+forward zm_onAfterApply(const id, const bool: first);
 
 /*******************************************************************************
  * NATIVES
