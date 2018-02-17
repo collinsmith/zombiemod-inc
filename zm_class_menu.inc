@@ -56,15 +56,38 @@ forward zm_isClassEnabled(const id, const Class: class, const name[]);
  ******************************************************************************/
 
 /**
- * Displays the class menu to the specified player. Once a class is selected,
- * it will typically be applied the next time they respawn.
+ * Displays the class menu to the specified player. Classes will be checked by
+ * extensions to determine if they are applicable, e.g., if a class requires
+ * an admin access level that the player does not have.
  * 
  * @param id       The player to display the menu for
  * @param exitable {@code true} if the menu is exitable, {@code false} otherwise
+ * @param apply    {@code true} to immediately apply the class once selected,
+ *                   {@code false} to apply the class the next time they spawn.
  * 
  * @return {@code true} if the menu displayed as a result of this call,
  *         {@code false} otherwise. This function will return {@code false} if
  *         {@code exitable} is {@code true} and another extension blocks the
  *         menu from displaying.
  */
-native bool: zm_showClassesMenu(const id, const bool: exitable = true);
+native bool: zm_showClassMenu(const id, const bool: exitable = true, const bool: apply = true);
+
+/**
+ * Populates the passed array with handles to the tries representing the classes
+ * that have been registered with ZM (in no particular order). The classes will
+ * have been checked by {@code zm_isClassEnabled} to ensure they are applicable
+ * to the specified player.
+ * 
+ * The caller is responsible for destroying the returned array once they are
+ * finished using it.
+ * 
+ * @param id  The player to check the class requirements against
+ * @param dst The destination cellarray to copy the classes to, if
+ *              {@code dst} is {@code Invalid_Array}, then a new cellarray will
+ *              be allocated.
+ * 
+ * @return An array containing the registered classes
+ * 
+ * @see zm_classes.inc::zm_getClasses
+ */
+native Array: zm_getUserClasses(const id, const Array: dst = Invalid_Array);
