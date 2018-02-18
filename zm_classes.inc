@@ -223,7 +223,7 @@ native Array: zm_getClasses(const Array: dst = Invalid_Array);
  *                    loaded class, or {@code Invalid_Trie} if an error occurred
  * @param extension The file extensions this class loader recognizes
  */
-native zm_registerClassLoader(const callback[], const extension[], ...);
+//native zm_registerClassLoader(const callback[], const extension[], ...);
 
 /**
  * Loads the classes contained within the specified file (or folder) and
@@ -250,7 +250,7 @@ native zm_registerClassLoader(const callback[], const extension[], ...);
  * @see #zm_registerClass
  * @see zm_cfg.inc::zm_getConfigsDirPath
  */
-native zm_loadClass(const path[], const bool: recursive = false);
+//native zm_loadClass(const path[], const bool: recursive = false);
 
 /**
  * Reloads the specified class as if it were being registered for the first
