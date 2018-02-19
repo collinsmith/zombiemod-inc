@@ -5,8 +5,6 @@
 
 #pragma reqlib zombies
 
-#tryinclude <logger>
-
 #include "include/zm/extension_t.inc"
 #include "include/zm/zm_cfg.inc"
 #include "include/zm/zm_debug.inc"

@@ -31,3 +31,10 @@ stock const ZM_NAME_SHORT[] = "ZM_NAME_SHORT";
 stock zm_getDictionary(dst[], len) {
   return copy(dst, len, ZOMBIES_DICTIONARY);
 }
+
+stock zm_registerDictionary(const filename[]) {
+  register_dictionary(filename);
+#if defined DEBUG_I18N
+  logd("Registered dictionary \"%s\"", filename);
+#endif
+}
