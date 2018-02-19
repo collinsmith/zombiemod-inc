@@ -4,6 +4,7 @@
 #define _zm_i18n_included
 
 #include <amxconst>
+#include <celltrie>
 
 #include "include/zm/zm_debug.inc"
 
@@ -14,6 +15,11 @@
 
 /** The dictionary file of zombies. */
 #define ZOMBIES_DICTIONARY "zombiemod.txt"
+
+// TODO: Documentation
+#define class_prop_key_length 31
+// TODO: Documentation
+#define class_prop_value_length 511
 
 /** The name of ZM (default: {@code "Zombie Mod"}). */
 stock const ZM_NAME[] = "ZM_NAME";
@@ -56,6 +62,25 @@ stock zm_parseResource(const res[], dst[], len, id = LANG_SERVER) {
   }
 }
 
+// TODO: Documentation
 stock zm_parseResourceFast(res[], len, id = LANG_SERVER) {
   zm_parseResource(res, res, len, id);
+}
+
+// TODO: Documentation
+stock zm_parseClassResource(const Trie: class, const property[], res[], len, id = LANG_SERVER) {
+  TrieGetString(class, property, res, len);
+  zm_parseResourceFast(res, len, id);
+}
+
+// TODO: Documentation
+stock zm_getClassPropertyName(const Trie: class, const property[], res[], len) {
+  TrieGetString(class, property, res, len);
+}
+
+// TODO: Documentation
+stock bool: zm_getClassProperty(const Trie: class, const property[], res[], len, id = LANG_SERVER) {
+  new const bool: keyExists = TrieGetString(class, property, res, len);
+  zm_parseResourceFast(res, len, id);
+  return keyExists;
 }
