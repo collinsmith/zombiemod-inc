@@ -3,8 +3,7 @@
 #endif
 #define _zm_i18n_included
 
-#include <amxconst>
-#include <celltrie>
+#include "include/stocks/resource_stocks.inc"
 
 #include "include/zm/zm_debug.inc"
 
@@ -31,56 +30,4 @@ stock const ZM_NAME_SHORT[] = "ZM_NAME_SHORT";
  */
 stock zm_getDictionary(dst[], len) {
   return copy(dst, len, ZOMBIES_DICTIONARY);
-}
-
-/**
- * Parses the given string and outputs the resolved value.
- * 
- * @param res The resource string to parse
- * @param dst The resolved value
- * @param len The maximum length of the resolved value
- * @param id  A player index or {@code LANG_SERVER} used to determine the
- *              language that the resource should be translated to
- */
-stock zm_parseResource(const res[], dst[], len, id = LANG_SERVER) {
-#if defined DEBUG_I18N
-  new tmp[32];
-  copy(tmp, charsmax(tmp), res);
-#endif
-  if (res[0] == '@') {
-    new type[32];
-    new const offset = copyc(type, charsmax(type), res[1], '/') + 2;
-    if (equal(type, "string")) {
-      // TODO: Not found should display something else than ML trans key
-      LookupLangKey(dst, len, res[offset], id);
-#if defined DEBUG_I18N
-      logd("%s -> \"%s\"", tmp, dst);
-#endif
-    } else {
-      copy(dst, len, res);
-    }
-  }
-}
-
-// TODO: Documentation
-stock zm_parseResourceFast(res[], len, id = LANG_SERVER) {
-  zm_parseResource(res, res, len, id);
-}
-
-// TODO: Documentation
-stock zm_parseClassResource(const Trie: class, const property[], res[], len, id = LANG_SERVER) {
-  TrieGetString(class, property, res, len);
-  zm_parseResourceFast(res, len, id);
-}
-
-// TODO: Documentation
-stock zm_getClassPropertyName(const Trie: class, const property[], res[], len) {
-  TrieGetString(class, property, res, len);
-}
-
-// TODO: Documentation
-stock bool: zm_getClassProperty(const Trie: class, const property[], res[], len, id = LANG_SERVER) {
-  new const bool: keyExists = TrieGetString(class, property, res, len);
-  zm_parseResourceFast(res, len, id);
-  return keyExists;
 }
