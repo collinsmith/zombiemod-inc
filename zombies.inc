@@ -5,7 +5,7 @@
 
 #pragma reqlib zombies
 
-#include "include/zm/extension_t.inc"
+#include "include/zm/extension_consts.inc"
 #include "include/zm/zm_cfg.inc"
 #include "include/zm/zm_debug.inc"
 #include "include/zm/zm_i18n.inc"
@@ -45,19 +45,24 @@ forward zm_onInitExtension();
 /**
  * Called after an extension has been registered.
  * 
- * @param extension The unique identifier associated with the extension
- * @param name      The name of the extension
- * @param desc      A brief description of the extension
- * @param version   The version of the extension
+ * @param extension The trie containing the extension's info. Keys are located
+ *                    within {@code extension_consts.inc}.
+ * @param filename  The file name of the registering plugin.
  * 
  * @noreturn
  */
-forward zm_onExtensionRegistered(const ZM_Extension: extension, const name[],
-                                 const desc[], const version[]);
+forward zm_onExtensionRegistered(const Trie: extension, const filename[]);
 
 /*******************************************************************************
  * NATIVES
  ******************************************************************************/
+
+/**
+ * Returns the plugin ID of ZM, or {@code INVALID_PLUGIN_ID} if an error
+ * occurred. This is used by all core extensions. Extensions which log
+ * a lot of information should use their own logs instead.
+ */
+native zm_getPluginId();
 
 /**
  * Registers an extension of zombies. Extensions should be registered in an
@@ -66,17 +71,20 @@ forward zm_onExtensionRegistered(const ZM_Extension: extension, const name[],
  * {@link #zm_onInitExtension}.
  * 
  * @param name    The name of the extension, or {@code ""} to use the file name
- *                  as the extension name (without {@code .amxx})
+ *                  of the registering plugin as the extension name (without
+ *                  {@code .amxx})
  * @param desc    A brief description of what the extension does
  * @param version The version of the extension
  * 
- * @return The index assigned to the extension as a result of registering it
- *         with ZM, or {@code Invalid_Extension} if an error occured while
- *         registering it.
+ * @return The trie containing the extension's data, or {@code Invalid_Trie} if
+ *         an error occured while registering it.
+ * 
+ * @throws IllegalStateException if the registering plugin has already
+ *         registered itself as an extension.
  */
-native ZM_Extension: zm_registerExtension(const name[] = "",
-                                          const version[] = "",
-                                          const desc[] = "");
+native Trie: zm_registerExtension(const name[] = "",
+                                  const version[] = "",
+                                  const desc[] = "");
 
 /**
  * Returns the number of extensions registered with ZM.
@@ -84,26 +92,19 @@ native ZM_Extension: zm_registerExtension(const name[] = "",
 native zm_getNumExtensions();
 
 /**
- * Populates the passed array with the metadata of the specified extension.
- * 
- * @noreturn
- * 
- * @throws IllegalArgumentException if {@code extension} is invalid.
+ * Returns the extension with the given file name, or {@code Invalid_Trie} if no
+ * extension with the specified file name was found.
  */
-native zm_getExtension(const ZM_Extension: extension, data[extension_t]);
+native Trie: zm_findExtension(const filename[]);
 
 /**
- * Returns the extension with the given name (case-insensitive), or
- * {@code Invalid_Extension} if no extension with the specified name was found.
+ * Returns the extension belonging to the given plugin index, or
+ * {@code Invalid_Trie} if no extension was registered by it.
  */
-native ZM_Extension: zm_findExtension(const name[]);
+native Trie: zm_findExtensionById(const plugin);
 
 /**
- * Returns the plugin ID of ZM, or {@code INVALID_PLUGIN_ID} if an error
- * occurred. This is used by all core extensions. Extensions which log
- * a lot of information should use their own loggers instead.
- * 
- * @throws IllegalStateException if this function is called before the plugin
- *         has been initialized.
+ * Indicates whether or not the specified identifier is a trie belonging to an
+ * extension.
  */
-native zm_getPluginId();
+native bool: zm_isValidExtension(const any: extension);
