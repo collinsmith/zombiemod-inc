@@ -12,7 +12,7 @@
  ******************************************************************************/
 
 /**
- * Called after a player has respawned.
+ * Called after a player has spawned.
  * 
  * @noreturn
  */
@@ -35,7 +35,7 @@ forward zm_onKilled(const victim, const killer);
  *                    player is becoming the first zombie)
  * @param blockable {@code true} if the infection event is blockable (for
  *                    example, the player has some item that might prevent
- *                    immediate infeciton), {@code false} otherwise
+ *                    immediate infection), {@code false} otherwise
  * 
  * @return Typically {@code PLUGIN_CONTINUE}, however if {@code blockable} is
  *         {@code true}, then {@code PLUGIN_HANDLED} will prevent the infection.
@@ -43,8 +43,22 @@ forward zm_onKilled(const victim, const killer);
 forward zm_onBeforeInfected(const id, const infector, const bool: blockable);
 
 /**
+ * Called when a player infection has been blocked.
+ * 
+ * @param id       The targetted player of the infection
+ * @param infector The player causing the infection, or {@code -1} if the
+ *                   infection was triggered by an extension (for example, the
+ *                   player is becoming the first zombie)
+ * @param reason   The reason why the infection was blocked (for example, the
+ *                   player was saved by an item, so this reason would be the
+ *                   message to display to the user as to why they are not
+ *                   infected)
+ */
+forward zm_onInfectionBlocked(const id, const infector, const reason[]);
+
+/**
  * Called after {@code #zm_onBeforeInfected}, once a player has been infected,
- * but before their actual state has changed. At this stage, the infection event
+ * but before their actual state has changed. At this time, the infection event
  * can no longer be blocked.
  * 
  * @param id       The targetted player of the infection
@@ -74,16 +88,25 @@ forward zm_onAfterInfected(const id, const infector);
  * 
  * @param id        The targetted player of the cure
  * @param curor     The player causing the curing, or {@code -1} if the
- *                    curing was triggered by an extension (for example, the
- *                    player has an item that cures them)
+ *                    curing was triggered by an extension
  * @param blockable {@code true} if the cure event is blockable (for
  *                    example, if the player is a prime zombie, then they might
  *                    not be curable in some cases, {@code false} otherwise
  * 
  * @return Typically {@code PLUGIN_CONTINUE}, however if {@code blockable} is
- *         {@code true}, then {@code PLUGIN_HANDLED} will prevent the infection.
+ *         {@code true}, then {@code PLUGIN_HANDLED} will prevent the cure.
  */
 forward zm_onBeforeCured(const id, const curor, const bool: blockable);
+
+/**
+ * Called when a player cure has been blocked.
+ * 
+ * @param id     The targetted player of the cure
+ * @param curor  The player causing the cure, or {@code -1} if the cure was
+ *                 triggered by an extension
+ * @param reason The reason why the cure was blocked
+ */
+forward zm_onCureBlocked(const id, const curor, const reason[]);
 
 /**
  * Called after {@code #zm_onBeforeCured}, once a player has been cured, but
@@ -193,13 +216,15 @@ native bool: zm_respawn(const id, const bool: force = false);
  * @return One of {@code ZM_STATE_CHANGE_ERROR}, {@code ZM_STATE_CHANGE_DID_NOT_CHANGE},
  *         {@code ZM_STATE_CHANGE_BLOCKED}, or {@code ZM_STATE_CHANGE_CHANGED}
  */
-native ZM_State_Change: zm_infect(const id, const infector = -1, const bool: blockable = true, const bool: respawn = false);
+native ZM_State_Change: zm_infect(const id, const infector = -1,
+                                  const bool: blockable = true,
+                                  const bool: respawn = false);
 
 /**
  * Cures the specified player and turns them into a human.
  * 
  * @param id        The player to cure
- * @param infector  The originating player of the cure, or {@code -1} if
+ * @param curor     The originating player of the cure, or {@code -1} if
  *                    the player is being cured by an extension
  * @param blockable {@code true} if the cure event is blockable by extensions,
  *                    {@code false} otherwise. If the cure is blockable and it
@@ -210,31 +235,45 @@ native ZM_State_Change: zm_infect(const id, const infector = -1, const bool: blo
  * @return One of {@code ZM_STATE_CHANGE_ERROR}, {@code ZM_STATE_CHANGE_DID_NOT_CHANGE},
  *         {@code ZM_STATE_CHANGE_BLOCKED}, or {@code ZM_STATE_CHANGE_CHANGED}
  */
-native ZM_State_Change: zm_cure(const id, const curor = -1, const bool: blockable = true, const bool: respawn = false);
+native ZM_State_Change: zm_cure(const id, const curor = -1,
+                                const bool: blockable = true,
+                                const bool: respawn = false);
 
 /**
  * Refreshes the state of the specified player by calling {@link #zm_onApply}.
+ * The player must be alive when calling this function.
  * 
  * @param id The player to update
  * 
  * @return {@code true} if the player's state refreshed as a result of this
  *         call, {@code false} otherwise
+ * 
+ * @throws IllegalArgumentException if the specified player is not alive.
  */
 native bool: zm_refresh(const id);
 
 /**
- * Sets the team change provider of ZM. By default ZM only supports cstrike,
- * however with this native, other mods should be supportable by providing a
- * means of changing a user's team using a generic API. Only one team change
- * provider can be active at a time, so a warning will be given in the event
- * this function is called and a team change provider is already set.
+ * Should be called within {@link #zm_onBeforeInfected}. Sets the reason as to
+ * why the infection event was blocked. It is not required to set the blocked
+ * reason, however it is useful in cases where the player should be notified.
  * 
- * @param callback The callback function which will be used to change a user's
- *                 team. The callback function's signature should look like
- *                 {@code public <callback>(const id, const ZM_Team: team)}
+ * @note Supports resource strings.
  * 
+ * @param reason The reason why the infection event was blocked.
  * 
- * 
- * @throws IllegalStateException if a team change provider has already been set.
+ * @noreturn
  */
-native zm_setTeamChangeProvider(const callback[]);
+native zm_setInfectionBlockedReason(const reason[]);
+
+/**
+ * Should be called within {@link #zm_onBeforeCured}. Sets the reason as to why
+ * the cure event was blocked. It is not required to set the blocked reason,
+ * however it is useful in cases where the player should be notified.
+ * 
+ * @note Supports resource strings.
+ * 
+ * @param reason The reason why the cure event was blocked.
+ * 
+ * @noreturn
+ */
+native zm_setCureBlockedReason(const reason[]);
