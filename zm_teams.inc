@@ -241,14 +241,12 @@ native ZM_State_Change: zm_cure(const id, const curor = -1,
 
 /**
  * Refreshes the state of the specified player by calling {@link #zm_onApply}.
- * The player must be alive when calling this function.
+ * The player must be alive when calling this function for anything to happen.
  * 
  * @param id The player to update
  * 
  * @return {@code true} if the player's state refreshed as a result of this
  *         call, {@code false} otherwise
- * 
- * @throws IllegalArgumentException if the specified player is not alive.
  */
 native bool: zm_refresh(const id);
 
