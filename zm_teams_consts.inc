@@ -3,6 +3,8 @@
 #endif
 #define _zm_teams_consts_included
 
+stock TeamName: operator=(const ZM_Team: team) { return TeamName:(team); }
+
 enum ZM_Team {
   ZM_TEAM_UNASSIGNED = 0,
   ZM_TEAM_ZOMBIE = 1,
