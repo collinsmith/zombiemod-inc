@@ -88,6 +88,11 @@ native Trie: zm_registerExtension(const name[] = "",
                                   const desc[] = "");
 
 /**
+ * Returns an iterator over the registered extensions.
+ */
+native TrieIter: zm_getExtensionsIter();
+
+/**
  * Returns the number of extensions registered with ZM.
  */
 native zm_getNumExtensions();
