@@ -88,7 +88,8 @@ native Trie: zm_registerExtension(const name[] = "",
                                   const desc[] = "");
 
 /**
- * Returns an iterator over the registered extensions.
+ * Returns an iterator over the registered extensions. This is guaranteed not
+ * to return {@code Invalid_TrieIter} and will return an empty iterator instead.
  */
 native TrieIter: zm_getExtensionsIter();
 
