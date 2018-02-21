@@ -11,6 +11,7 @@
 #include "include/zm/zm_i18n.inc"
 #include "include/zm/zm_misc.inc"
 #include "include/zm/zm_version.inc"
+#include "include/zm/zm_teams.inc"
 
 /*******************************************************************************
  * FORWARDS
