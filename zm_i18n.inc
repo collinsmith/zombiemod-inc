@@ -15,11 +15,6 @@
 /** The dictionary file of zombies. */
 #define ZOMBIES_DICTIONARY "zombiemod.txt"
 
-// TODO: Documentation
-#define class_prop_key_length 31
-// TODO: Documentation
-#define class_prop_value_length 511
-
 /** The name of ZM (default: {@code "Zombie Mod"}). */
 stock const ZM_NAME[] = "ZM_NAME";
 /** The short name of ZM (default: {@code "ZM"}). */

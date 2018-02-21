@@ -7,7 +7,7 @@
 
 #include <celltrie>
 
-#include "include/zm/zm_classes_consts.inc"
+#include "include/zm/zm_class_consts.inc"
 #include "include/zm/zombies.inc"
 
 /*******************************************************************************
