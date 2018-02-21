@@ -26,7 +26,18 @@
  * @return Typically {@code PLUGIN_CONTINUE}, however if {@code blockable} is
  *         {@code true}, then {@code PLUGIN_HANDLED} will prevent the change.
  */
-forward zm_onBeforeClassChanged(const id, const Class: class, const bool: immediate, const bool: blockable);
+forward zm_onBeforeClassChanged(const id, const Trie: class, const bool: immediate, const bool: blockable);
+
+/**
+ * Called when a player's class change was blocked.
+ * 
+ * @param id     The player whose class change was blocked
+ * @param class  The class the player attempted to change to
+ * @param reason The reason why the change was blocked
+ * 
+ * @noreturn
+ */
+forward zm_onClassChangeBlocked(const id, const Trie: class, const reason[]);
 
 /**
  * Called after {@code #zm_onBeforeClassChanged}, once a player has changed
@@ -39,7 +50,7 @@ forward zm_onBeforeClassChanged(const id, const Class: class, const bool: immedi
  * 
  * @noreturn
  */
-forward zm_onClassChanged(const id, const Class: class, const bool: immediate);
+forward zm_onClassChanged(const id, const Trie: class, const bool: immediate);
 
 /**
  * Called after {@code #zm_onClassChanged}, once a player has changed classes.
@@ -50,19 +61,19 @@ forward zm_onClassChanged(const id, const Class: class, const bool: immediate);
  * 
  * @noreturn
  */
-forward zm_onAfterClassChanged(const id, const Class: class, const bool: immediate);
+forward zm_onAfterClassChanged(const id, const Trie: class, const bool: immediate);
 
 /**
  * Called after a class has been registered. The class' properties are stored
  * within the passed trie, whose keys should be documented by the class or
  * class type similar to {@link zm_classes_const.inc}.
  * 
- * @param name  The name of the class, independent of i18n
+ * @param name  The name of the class, including of i18n
  * @param class The trie storing the class' data
  * 
  * @noreturn
  */
-forward zm_onClassRegistered(const name[], const Class: class);
+forward zm_onClassRegistered(const name[], const Trie: class);
 
 /**
  * Called when a class' property is about to change. Extensions can override
@@ -79,8 +90,22 @@ forward zm_onClassRegistered(const name[], const Class: class);
  *         invalidates {@code newValue}, then {@code PLUGIN_HANDLED} will
  *         block the property change.
  */
-forward zm_onBeforeClassPropertyChanged(const Class: class, const property[],
+forward zm_onBeforeClassPropertyChanged(const Trie: class, const property[],
                                         const oldValue[], const newValue[]);
+
+
+/**
+ * Called when a class property change was blocked.
+ * 
+ * @param class    The class originating the event
+ * @param property The attempted property
+ * @param newValue The attempted value
+ * @param reason   The reason why the change was blocked
+ * 
+ * @noreturn
+ */
+forward zm_onClassPropertyChangeBlocked(const Trie: class, const property[],
+                                        const newValue[], const reason[]);
 
 /**
  * Called after {@link #zm_onBeforeClassPropertyChanged}, when a class' property
@@ -96,7 +121,7 @@ forward zm_onBeforeClassPropertyChanged(const Class: class, const property[],
  * 
  * @noreturn
  */
-forward zm_onClassPropertyChanged(const Class: class, const property[],
+forward zm_onClassPropertyChanged(const Trie: class, const property[],
                                   const oldValue[], const newValue[]);
 
 /*******************************************************************************
@@ -138,7 +163,7 @@ native bool: zm_registerClass(const Trie: class, const bool: replace = false);
  * {@code name} and returns it. If the class cannot be found, then
  * {@code Invalid_Trie} is returned instead.
  */
-native Class: zm_findClass(const name[]);
+native Trie: zm_findClass(const name[]);
 
 /**
  * Changes the specified class property.
@@ -155,7 +180,7 @@ native Class: zm_findClass(const name[]);
  * 
  * @throws IllegalArgumentException if {@code class} is {@code Invalid_Trie}.
  */
-native zm_setClassProperty(const Class: class, const property[], const value[]);
+native zm_setClassProperty(const Trie: class, const property[], const value[]);
 
 /**
  * Indicates whether or not the specified class has been registered with ZM.
@@ -163,13 +188,13 @@ native zm_setClassProperty(const Class: class, const property[], const value[]);
  * specified class, however this will also distinguish whether or not the class
  * returned by {@link #zm_findClass} is actually equivalent to {@code class}.
  */
-native bool: zm_isClassRegistered(const any: class);
+native bool: zm_isValidClass(const any: class);
 
 /**
  * Returns the class assigned to the specified player, or {@code Invalid_Trie}
  * if the player has no class assigned to him.
  */
-native Class: zm_getUserClass(const id);
+native Trie: zm_getUserClass(const id);
 
 /**
  * Assigns a class to a player.
@@ -188,7 +213,7 @@ native Class: zm_getUserClass(const id);
  *         the class they would have changed to if a graceful class change had
  *         occurred).
  */
-native Class: zm_setUserClass(const id, const Class: class, const bool: immediate = false, const bool: blockable = true);
+native Trie: zm_setUserClass(const id, const Trie: class, const bool: immediate = true, const bool: blockable = true);
 
 /**
  * Returns the number of classes registered.
@@ -196,19 +221,38 @@ native Class: zm_setUserClass(const id, const Class: class, const bool: immediat
 native zm_getNumClasses();
 
 /**
- * Populates the passed array with handles to the tries representing the classes
- * that have been registered with ZM (in no particular order).
- * 
- * The caller is responsible for destroying the returned array once they are
- * finished using it.
- * 
- * @param dst The destination cellarray to copy the classes to, if
- *              {@code dst} is {@code Invalid_Array}, then a new cellarray will
- *              be allocated.
- * 
- * @return An array containing the registered classes
+ * Returns an iterator over the registered classes. The caller is responsible
+ * for destroying the returned iterator once they are finished using it.
  */
-native Array: zm_getClasses(const Array: dst = Invalid_Array);
+native TrieIter: zm_getClassesIter();
+
+/**
+ * Should be called within {@link #zm_onBeforeClassChanged}. Sets the reason as
+ * to why the class change event was blocked. It is not required to set the
+ * blocked reason, however it is useful in cases where the player should be
+ * notified.
+ * 
+ * @note Supports resource strings.
+ * 
+ * @param reason The reason why the class change event was blocked.
+ * 
+ * @noreturn
+ */
+native setClassBlockedReason(const reason[]);
+
+/**
+ * Should be called within {@link #zm_onBeforeClassPropertyChanged}. Sets the
+ * reason as to why the class property change event was blocked. It is not
+ * required to set the blocked reason, however it is high suggested to notify
+ * the extension as to why their change was blocked.
+ * 
+ * @note Supports resource strings.
+ * 
+ * @param reason The reason why the class property change event was blocked.
+ * 
+ * @noreturn
+ */
+native setClassPropertyBlockedReason(const reason[]);
 
 /**
  * Registers this plugin as a loader of class files.
@@ -265,4 +309,4 @@ native Array: zm_getClasses(const Array: dst = Invalid_Array);
  * 
  * @param class The handle of the trie repreesnting the class
  */
-//native zm_reloadClass(const Class: class);
+//native zm_reloadClass(const Trie: class);
