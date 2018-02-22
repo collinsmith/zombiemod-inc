@@ -124,6 +124,18 @@ forward zm_onClassPropertyChangeBlocked(const Trie: class, const property[],
 forward zm_onClassPropertyChanged(const Trie: class, const property[],
                                   const oldValue[], const newValue[]);
 
+/**
+ * Called when an extension wants to know if a class should be enabled for a
+ * specified player.
+ * 
+ * @param id      The player to check against
+ * @param class   The class to check
+ * @param classId The unique i18n indepedent id of the class
+ * 
+ * @return {@code true} if the class is allowed, {@code false} otherwise
+ */
+forward zm_onIsClassEnabled(const id, const Trie: class, const classId[]);
+
 /*******************************************************************************
  * NATIVES
  ******************************************************************************/
@@ -238,7 +250,7 @@ native TrieIter: zm_getClassesIter();
  * 
  * @noreturn
  */
-native setClassBlockedReason(const reason[]);
+native zm_setClassBlockedReason(const reason[]);
 
 /**
  * Should be called within {@link #zm_onBeforeClassPropertyChanged}. Sets the
@@ -252,7 +264,12 @@ native setClassBlockedReason(const reason[]);
  * 
  * @noreturn
  */
-native setClassPropertyBlockedReason(const reason[]);
+native zm_setClassPropertyBlockedReason(const reason[]);
+
+/**
+ * Indicates whether or not the specified class is enabled for a given player.
+ */
+native bool: zm_isClassEnabled(const id, const Trie: class);
 
 /**
  * Registers this plugin as a loader of class files.
