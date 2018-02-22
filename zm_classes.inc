@@ -73,7 +73,7 @@ forward zm_onAfterClassChanged(const id, const Trie: class, const bool: immediat
  * 
  * @noreturn
  */
-forward zm_onClassRegistered(const name[], const Trie: class);
+forward zm_onClassRegistered(const classId[], const Trie: class);
 
 /**
  * Called when a class' property is about to change. Extensions can override
@@ -160,10 +160,10 @@ native bool: zm_registerClass(const Trie: class, const bool: replace = false);
 
 /**
  * Locates the handle of the trie representing the class with the specified
- * {@code name} and returns it. If the class cannot be found, then
+ * {@code classId} and returns it. If the class cannot be found, then
  * {@code Invalid_Trie} is returned instead.
  */
-native Trie: zm_findClass(const name[]);
+native Trie: zm_findClass(const classId[]);
 
 /**
  * Changes the specified class property.
