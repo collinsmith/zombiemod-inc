@@ -73,7 +73,7 @@ forward zm_onAfterClassChanged(const id, const Trie: class, const bool: immediat
  * 
  * @noreturn
  */
-forward zm_onClassRegistered(const classId[], const Trie: class);
+forward zm_onClassRegistered(const Trie: class, const classId[]);
 
 /**
  * Called when a class' property is about to change. Extensions can override

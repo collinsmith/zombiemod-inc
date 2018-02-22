@@ -47,7 +47,7 @@ forward zm_onClassMenuDisplayed(const id, const bool: exitable);
  * 
  * @noreturn
  */
-forward zm_onClassSelected(const id, const Class: class, const name[]);
+forward zm_onClassSelected(const id, const Trie: class, const classId[]);
 
 /**
  * Called when the class menu is being constructed for a user, enabling or
@@ -61,7 +61,7 @@ forward zm_onClassSelected(const id, const Class: class, const name[]);
  *         {@code ITEM_DISABLED}. Returning {@code ITEM_DISABLED} will override
  *         any other return values from this forward and disable the item.
  */
-forward zm_isClassEnabled(const id, const Class: class, const name[]);
+forward zm_isClassEnabled(const id, const Trie: class, const classId[]);
 
 /*******************************************************************************
  * NATIVES
