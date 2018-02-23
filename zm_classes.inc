@@ -272,6 +272,23 @@ native zm_setClassPropertyBlockedReason(const reason[]);
 native bool: zm_isClassEnabled(const id, const Trie: class);
 
 /**
+ * Returns the handle to an array containing handles to the tries representing 
+ * the classes that have been registered with ZM (in no particular order). The
+ * classes will have been checked by {@code zm_isClassEnabled} to ensure they
+ * are applicable to the specified player.
+ * 
+ * The caller is responsible for destroying the returned array once they are
+ * finished using it.
+ * 
+ * @param id  The player to check the class requirements against
+ * 
+ * @return An array containing the registered classes
+ * 
+ * @see zm_getClasses
+ */
+native Array: zm_getUserClasses(const id);
+
+/**
  * Registers this plugin as a loader of class files.
  * 
  * Example: {@code zm_registerClassLoader("onLoadClass", "txt", "cfg", "ini");

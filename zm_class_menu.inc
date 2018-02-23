@@ -61,7 +61,7 @@ forward zm_onClassSelected(const id, const Trie: class, const classId[]);
  *         {@code ITEM_DISABLED}. Returning {@code ITEM_DISABLED} will override
  *         any other return values from this forward and disable the item.
  */
-forward zm_isClassEnabled(const id, const Trie: class, const classId[]);
+//forward zm_isClassEnabled(const id, const Trie: class, const classId[]);
 
 /*******************************************************************************
  * NATIVES
@@ -81,23 +81,3 @@ forward zm_isClassEnabled(const id, const Trie: class, const classId[]);
  *         menu from displaying.
  */
 native bool: zm_showClassMenu(const id, const bool: exitable = true);
-
-/**
- * Populates the passed array with handles to the tries representing the classes
- * that have been registered with ZM (in no particular order). The classes will
- * have been checked by {@code zm_isClassEnabled} to ensure they are applicable
- * to the specified player.
- * 
- * The caller is responsible for destroying the returned array once they are
- * finished using it.
- * 
- * @param id  The player to check the class requirements against
- * @param dst The destination cellarray to copy the classes to, if
- *              {@code dst} is {@code Invalid_Array}, then a new cellarray will
- *              be allocated.
- * 
- * @return An array containing the registered classes
- * 
- * @see zm_classes.inc::zm_getClasses
- */
-native Array: zm_getUserClasses(const id, const Array: dst = Invalid_Array);
