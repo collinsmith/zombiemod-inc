@@ -26,7 +26,7 @@
  * @return Typically {@code PLUGIN_CONTINUE}, however if {@code blockable} is
  *         {@code true}, then {@code PLUGIN_HANDLED} will prevent the change.
  */
-forward zm_onBeforeClassChanged(const id, const Trie: class, const bool: immediate, const bool: blockable);
+forward zm_onBeforeClassChanged(const id, const Trie: class, const classId[], const bool: immediate, const bool: blockable);
 
 /**
  * Called when a player's class change was blocked.
@@ -37,7 +37,7 @@ forward zm_onBeforeClassChanged(const id, const Trie: class, const bool: immedia
  * 
  * @noreturn
  */
-forward zm_onClassChangeBlocked(const id, const Trie: class, const reason[]);
+forward zm_onClassChangeBlocked(const id, const Trie: class, const classId[], const reason[]);
 
 /**
  * Called after {@code #zm_onBeforeClassChanged}, once a player has changed
@@ -50,7 +50,7 @@ forward zm_onClassChangeBlocked(const id, const Trie: class, const reason[]);
  * 
  * @noreturn
  */
-forward zm_onClassChanged(const id, const Trie: class, const bool: immediate);
+forward zm_onClassChanged(const id, const Trie: class, const classId[], const bool: immediate);
 
 /**
  * Called after {@code #zm_onClassChanged}, once a player has changed classes.
@@ -61,7 +61,7 @@ forward zm_onClassChanged(const id, const Trie: class, const bool: immediate);
  * 
  * @noreturn
  */
-forward zm_onAfterClassChanged(const id, const Trie: class, const bool: immediate);
+forward zm_onAfterClassChanged(const id, const Trie: class, const classId[], const bool: immediate);
 
 /**
  * Called after a class has been registered. The class' properties are stored
