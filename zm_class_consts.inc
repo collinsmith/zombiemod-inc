@@ -12,3 +12,5 @@ stock const ZM_CLASS_HEALTH[] = "health";
 stock const ZM_CLASS_MAXSPEED[] = "maxspeed";
 stock const ZM_CLASS_GRAVITY[] = "gravity";
 stock const ZM_CLASS_WEAPONS[] = "weapons";
+stock const ZM_CLASS_V_MODEL[] = ".viewmodel"; // e.g., knife.viewmodel
+stock const ZM_CLASS_W_MODEL[] = ".weaponmodel"; // e.g., knife.weaponmodel
